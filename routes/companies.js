@@ -17,10 +17,21 @@ router.get("/:code", async (req, res, next) => {
     const results = await db.query("SELECT * FROM companies WHERE code = $1", [
       code,
     ]);
+    const invoices = await db.query(
+      "SELECT * FROM invoices WHERE comp_code = $1",
+      [code]
+    );
     if (results.rows.length === 0) {
       throw new ExpressError(`Can't find company with code of ${code}`, 404);
     }
-    return res.send({ company: results.rows[0] });
+    return res.send({
+      company: {
+        code: results.rows[0].code,
+        name: results.rows[0].name,
+        description: results.rows[0].description,
+        invoices: invoices.rows,
+      },
+    });
   } catch (e) {
     return next(e);
   }
@@ -39,7 +50,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:code", async (req, res, next) => {
+router.put("/:code", async (req, res, next) => {
   try {
     const { code } = req.params;
     const { name, description } = req.body;

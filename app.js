@@ -10,8 +10,8 @@ app.use(express.json());
 const cRoutes = require("./routes/companies");
 app.use("/companies", cRoutes);
 
-// const iRoutes = require("./routes/invoices");
-// app.use("/invoices", iRoutes);
+const iRoutes = require("./routes/invoices");
+app.use("/invoices", iRoutes);
 
 /** 404 handler */
 
