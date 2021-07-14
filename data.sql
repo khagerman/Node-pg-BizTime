@@ -1,9 +1,9 @@
 \c biztime
 
-DROP TABLE IF EXISTS companies 
-DROP TABLE IF EXISTS invoices 
-DROP TABLE IF EXISTS industries 
-DROP TABLE IF EXISTS companies_industries 
+DROP TABLE IF EXISTS companies CASCADE;
+DROP TABLE IF EXISTS invoices CASCADE;
+DROP TABLE IF EXISTS industries CASCADE;
+DROP TABLE IF EXISTS companies_industries CASCADE; 
 
 CREATE TABLE companies (
     code text PRIMARY KEY,
@@ -22,12 +22,11 @@ CREATE TABLE invoices (
 );
 CREATE TABLE industries (
     code text PRIMARY KEY,
-    industry text NOT NULL,
+    industry text NOT NULL
 );
 CREATE TABLE companies_industries(
-     
      company_code text NOT NULL REFERENCES companies ON DELETE CASCADE,
-     industry_code text NOT NULL REFERENCES industries ON DELETE CASCADE,
+     industry_code text NOT NULL REFERENCES industries ON DELETE CASCADE
 );
 INSERT INTO companies  (code, name, description)
   VALUES ('apple', 'Apple Computer', 'Maker of OSX.'),
@@ -46,5 +45,5 @@ INSERT INTO industries  (code, industry)
 
   INSERT INTO companies_industries (company_code, industry_code)
   VALUES ('apple', 'tech'),
-  ('npr', 'non-profit');
+  ('npr', 'non-profit'),  ('npr', 'tech');
 
