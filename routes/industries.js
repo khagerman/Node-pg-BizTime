@@ -19,7 +19,7 @@ router.get("/", async (req, res, next) => {
       const companies = results.rows.map((c) => c.name);
       industries[industry].companies = companies;
     }
-    return res.json(industry);
+    return res.json(industries);
   } catch (e) {
     return next(e);
   }
