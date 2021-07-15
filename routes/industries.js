@@ -9,15 +9,15 @@ router.get("/", async (req, res, next) => {
     const results = await db.query(`SELECT code FROM industries`);
 
     let industries = {};
+
     for (let row of results.rows) {
       let { code } = row;
 
       const industry = await db.query(
-        `SELECT industries.code, companies.name FROM industries JOIN companies_industries
-        ON industries.code =industry_code JOIN companies ON companies.code = company_code WHERE company_code = ${code}`
+        `SELECT company_code FROM companies_industries WHERE industry_code = '${code}'`
       );
-      const companies = results.rows.map((c) => c.name);
-      industries[industry].companies = companies;
+      const companies = industry.rows.map((c) => c.company_code);
+      industries[code] = companies;
     }
     return res.json(industries);
   } catch (e) {
